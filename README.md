@@ -1,13 +1,10 @@
 ![image](images/confluent-logo-300-2.png)
 
 * [Overview](#overview)
-* [Where to Start](#where-to-start)
-* [Confluent Cloud](#confluent-cloud)
-* [Stream Processing](#stream-processing)
-* [Data Pipelines](#data-pipelines)
-* [Confluent Platform](#confluent-platform)
-* [Build Your Own](#build-your-own)
-* [Additional Demos](#additional-demos)
+* [Confluent README content](#confluent-readme-content)
+  * [Stream Processing](#stream-processing)
+  * [Build Your Own](#build-your-own)
+  * [Additional Demos](#additional-demos)
 
 
 # Overview
@@ -18,6 +15,58 @@ This is a curated list of demos that showcase Apache Kafka® event stream proces
 <a href="http://www.youtube.com/watch?v=muQBd6gry0U" target="_blank"><img src="images/examples-video-thumbnail.jpg" width="360" height="270" border="10" /></a>
 </p>
 
+Solace is supporting Kafka in the Solace Event Portal. [Solace Event Portal for Kafka](https://solace.com/products/portal/kafka/) In this fork, the Microservices Ecosystem example within Stream Processing has been adapted to run outside of 
+the Confluent Cloud in order to demonstrate Event Portal integration.
+
+# Solace adaption of the Microservices Ecosystem example
+
+The full description of the Microservices ecosystem tutorial is [here](https://docs.confluent.io/platform/current/tutorials/examples/microservices-orders/docs/index.html#tutorial-introduction-to-streaming-application-development)
+
+This adaption launches the following in Docker/Podman:
+
+## Prerequisites
+* Linux
+* Repository checked out to Linux
+* Podman or Docker
+* Podman-compose or docker-compose
+* Optional:
+  * An existing Kafka deployment with KSQL and Schema Registry
+  * Administrative credentials to allow deployment of tutorial artifacts
+
+cd microservices-orders
+
+Edit local-env.sh and gen-configs.sh
+
+## Launching the demo
+
+cd microservices-orders
+
+source ./local-env.sh
+
+If using a local Kafka deployment:
+* podman-compose -f docker-compose-kafka.yml up -d
+* Wait for the Kafka environment to come up
+
+./start-local.sh
+
+## Accessing the demo
+
+UI for Apache Kafka is at http://localhost:8080/
+
+Kibana, which provides visual access to Elasticsearch contents, is at: http://localhost:5601/
+
+
+## Stopping the demo
+
+podman-compose -f docker-compose-local.yml down
+
+If using a local Kafka deployment:
+* podman-compose -f docker-compose-kafka.yml down
+
+podman volume rm -a
+
+# Confluent README content
+
 # Where to start
 
 The best demo to start with is [cp-demo](https://github.com/confluentinc/cp-demo) which spins up a Kafka event streaming application using ksqlDB for stream processing, with many security features enabled, in an end-to-end streaming ETL pipeline with a source connector pulling from live data and a sink connector connecting to Elasticsearch and Kibana for visualizations.
@@ -26,50 +75,11 @@ The best demo to start with is [cp-demo](https://github.com/confluentinc/cp-demo
 <p align="center"><img src="https://raw.githubusercontent.com/confluentinc/cp-demo/5.4.1-post/docs/images/cp-demo-overview.jpg" width="600"></p>
 
 
-# Confluent Cloud
-
-There are many examples from full end-to-end demos that create connectors, streams, and KSQL queries in Confluent Cloud, to resources that help you build your own demos.
-You can find the documentation and instructions for all Confluent Cloud demos at [https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)
-
-
-| Demo                                       | Local | Docker | Description
-| ------------------------------------------ | ----- | ------ | ---------------------------------------------------------------------------
-| [Confluent CLI](ccloud/beginner-cloud/README.md#confluent-cloud-cli) |  Y  |  N  | Fully automated demo interacting with your Confluent Cloud cluster using the Confluent CLI <br><img src="clients/cloud/images/confluent-cli.png" width="300">
-| [Clients in Various Languages to Cloud](clients/cloud/README.md)                 |   [Y](clients/cloud/README.md)   |   N    | Client applications, showcasing producers and consumers, in various programming languages connecting to [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top) <br><img src="clients/cloud/images/clients-all.png" width="450">
-| [Cloud ETL](cloud-etl/README.md)                 |   [Y](cloud-etl/README.md)   |   N   | Fully automated cloud ETL solution using Confluent Cloud connectors (AWS Kinesis, Postgres with AWS RDS, GCP GCS, AWS S3, Azure Blob) and fully-managed ksqlDB <br><img src="cloud-etl/docs/images/topology.png" width="450">
-| [ccloud-stack](ccloud/ccloud-stack/README.md) |  Y  |  N  | Creates a fully-managed stack in Confluent Cloud, including a new environment, service account, Kafka cluster, KSQL app, Schema Registry, and ACLs. The demo also generates a config file for use with client applications.<br><img src="https://github.com/confluentinc/cp-all-in-one/blob/latest/images/ccloud-stack-resources.png" width="300">
-| [On-Prem Kafka to Cloud](https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top) |   N   |   [Y](https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)    | Module 2 of [Confluent Platform demo](https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top) (`cp-demo`) with a playbook for copying data between the on-prem and Confluent Cloud clusters <br><img src="https://github.com/confluentinc/cp-demo/blob/7.3.0-post/docs/images/cp-demo-overview-with-ccloud.jpg" width="450">
-| [DevOps for Apache Kafka® with Kubernetes and GitOps](https://docs.confluent.io/platform/current/tutorials/streaming-ops/index.html) | N | N | Simulated production environment running a streaming application targeting Apache Kafka on Confluent Cloud using Kubernetes and GitOps <br><img src="images/github-flux-kubernetes-600x105.png">
-
-
 # Stream Processing
 
-| Demo                                       | Local | Docker | Description
-| ------------------------------------------ | ----- | ------ | ---------------------------------------------------------------------------
-| [Clickstream](clickstream/README.md)       |   N   |   [Y](https://docs.confluent.io/platform/current/tutorials/examples/clickstream/docs/index.html#clickstream-demo?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)    | Automated version of the [ksqlDB clickstream demo](https://docs.confluent.io/platform/current/tutorials/examples/clickstream/docs/index.html#clickstream-demo?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)  <br><img src="clickstream/docs/images/grafana-dashboard.png" width="450">
-| [Kafka Tutorials](https://kafka-tutorials.confluent.io?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)       |   [Y](https://kafka-tutorials.confluent.io?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)   |   [Y](https://kafka-tutorials.confluent.io?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top)   | Collection of common event streaming use cases, with each tutorial featuring an example scenario and several complete code solutions <br><img src="https://cdn.confluent.io/wp-content/uploads/Kafka-Tutorials-350x195.jpg" width="350">
-| [Microservices ecosystem](microservices-orders/README.md) |   N   |   [Y](microservices-orders/README.md)    | [Microservices orders Demo Application](https://github.com/confluentinc/kafka-streams-examples/tree/5.2.2-post/src/main/java/io/confluent/examples/streams/microservices) integrated into the Confluent Platform <br><img src="microservices-orders/docs/images/microservices-demo.jpg" width="450">
+[Microservices ecosystem](microservices-orders/README.md)
 
-# Data Pipelines
-
-| Demo                                       | Local | Docker | Description
-| ------------------------------------------ | ----- | ------ | ---------------------------------------------------------------------------
-| [Clients in Various Languages](clients/cloud/README.md)                 |   [Y](clients/cloud/README.md)   |   N    | Client applications, showcasing producers and consumers, in various programming languages <br><img src="clients/cloud/images/clients-all.png" width="450">
-| [Connect and Kafka Streams](connect-streams-pipeline/README.md) |   [Y](connect-streams-pipeline/README.md)   |   N    | Demonstrate various ways, with and without Kafka Connect, to get data into Kafka topics and then loaded for use by the Kafka Streams API <br><img src="connect-streams-pipeline/docs/images/example_3.jpg" width="450">
-
-
-# Confluent Platform
-
-| Demo                                       | Local | Docker | Description
-| ------------------------------------------ | ----- | ------ | ---------------------------------------------------------------------------
-| [Avro](clients/README.md)               |   [Y](clients/README.md)   |   N    | Client applications using Avro and Confluent Schema Registry <br><img src="https://www.confluent.io/wp-content/uploads/dwg_SchemaReg_howitworks.png" width="420">
-| [CP Demo](https://github.com/confluentinc/cp-demo)           |   N   |   [Y](https://github.com/confluentinc/cp-demo)    | [Confluent Platform demo](https://docs.confluent.io/platform/current/tutorials/cp-demo/docs/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top) (`cp-demo`) with a playbook for Kafka event streaming ETL deployments <br><img src="https://github.com/confluentinc/cp-demo/blob/7.3.x/docs/images/cp-demo-overview.jpg" width="420">
-| [Kubernetes](kubernetes/README.md)                 |   N   |   [Y](kubernetes/README.md)    | Demonstrations of Confluent Platform deployments using the  [Confluent Operator](https://docs.confluent.io/operator/current/overview.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top) <br><img src="kubernetes/docs/images/operator.png" width="420">
-| [Multi Datacenter](multi-datacenter/README.md) | N | [Y](multi-datacenter/README.md) | Active-active multi-datacenter design with two instances of Confluent Replicator copying data bidirectionally between the datacenters <br><img src="https://docs.confluent.io/platform/current/_images/mdc-level-1.png" width="420">
-| [Multi-Region Clusters](multiregion/README.md) | N | [Y](multiregion/README.md) | Multi-Region clusters (MRC) with follower fetching, observers, and replica placement<br><img src="multiregion/docs/images/multi-region-topic-replicas-v2.png" width="420">
-| [Quickstart](cp-quickstart/README.md)           |   [Y](cp-quickstart/README.md)   |   [Y](cp-quickstart/README.md)    | Automated version of the [Confluent Quickstart](https://docs.confluent.io/platform/current/quickstart/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.examples_type.community_content.top): for Confluent Platform on local install or Docker, community version, and Confluent Cloud <br><img src="cp-quickstart/images/quickstart.png" width="420">
-| [Role-Based Access Control](security/rbac/README.md) |  Y  |  Y  | Role-based Access Control (RBAC) provides granular privileges for users and service accounts <br><img src="https://docs.confluent.io/platform/current/_images/rbac-overview.png" width="450">
-| [Replicator Security](replicator-security/README.md) | N | [Y](replicator-security/README.md) | Demos of various security configurations supported by Confluent Replicator and examples of how to implement them <br><img src="images/replicator-security.png" width="300">
+[Microservices orders Demo Application](https://github.com/confluentinc/kafka-streams-examples/tree/5.2.2-post/src/main/java/io/confluent/examples/streams/microservices) integrated into the Confluent Platform <br><img src="microservices-orders/docs/images/microservices-demo.jpg" width="450">
 
 
 # Build Your Own
