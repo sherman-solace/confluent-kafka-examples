@@ -10,7 +10,7 @@ KQLDB_QUERY_PROPERTIES='"ksql.streams.auto.offset.reset":"earliest","ksql.stream
 
 while IFS= read -r ksqlCmd; do
 
-  cmdStr="${ksqlCmd}"
+  cmdStr=\"${ksqlCmd}\"
   echo
   echo $cmdStr
 #       -u $KSQLDB_BASIC_AUTH_USER_INFO \
